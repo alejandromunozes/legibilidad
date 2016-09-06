@@ -93,7 +93,7 @@ def contar_total_silabas(texto):
 def valorP(texto):
     silabas = contar_total_silabas(cifras_a_letras(texto))
     palabras = contar_palabras(cifras_a_letras(texto))
-    return round(100 * silabas / palabras,2)
+    return round(silabas / palabras,2)
 
 
 # Valor F. Promedio de frases por cada cien palabras
@@ -101,12 +101,12 @@ def valorP(texto):
 def valorF(texto):
     frases = contar_frases(texto)
     palabras = contar_palabras(cifras_a_letras(texto))
-    return round(100 * frases / palabras,2)
+    return round(palabras / frases,2)
 
 # Lecturabilidad
 
 def lecturabilidad(texto):
-    lecturabilidad = 206.84 - 0.60*valorP(texto) - 1.02*valorF(texto)
+    lecturabilidad = 206.84 - 60*valorP(texto) - 1.02*valorF(texto)
     return round(lecturabilidad,2)
 
 # Interpreta la lecturabilidad
