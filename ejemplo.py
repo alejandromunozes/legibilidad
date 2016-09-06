@@ -14,7 +14,7 @@ print(legibilidad.lecturabilidad(TextoDePrueba))
 
 # Interpretación de la lecturabilidad
 
-print(legibilidad.interpretaL(interL = legibilidad.interpretaL(TextoDePrueba)))
+print(legibilidad.interpretaL(legibilidad.interpretaL(TextoDePrueba)))
 
 # Muestra la perspicuidad
 print(legibilidad.perspicuidad(TextoDePrueba))
