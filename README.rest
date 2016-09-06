@@ -1,9 +1,7 @@
 Legibilidad
 ===========
 
-Spanish text readability calculations.
-
-This script is made to test the readability of a given Spanish text. It calculates:
+Spanish text readability calculations. It calculates:
 
 * Fernández Huerta's readability score
 * Szigriszt-Pazos' perspicuity score
@@ -18,5 +16,5 @@ How to use
   * `nal.py <https://raw.githubusercontent.com/amunozf/cifra-a-texto/master/nal.py>`_
   * `separasilabas.py <https://raw.githubusercontent.com/amunozf/separasilabas/master/separasilabas.py>`_
 
-2. Copy them to the same folder as legibilidad.py
+2. Copy them to the same folder
 3. See "ejemplo.py" to find out how it works.
