@@ -13,9 +13,10 @@ How to use
 ==========
 
 1. Download this files:
-* `legibilidad.py <https://raw.githubusercontent.com/amunozf/legibilidad/master/legibilidad.py>`_
-* `nal.py <https://raw.githubusercontent.com/amunozf/cifra-a-texto/master/nal.py>`_
-* `separasilabas.py <https://raw.githubusercontent.com/amunozf/separasilabas/master/separasilabas.py>`_
+
+  * `legibilidad.py <https://raw.githubusercontent.com/amunozf/legibilidad/master/legibilidad.py>`_
+  * `nal.py <https://raw.githubusercontent.com/amunozf/cifra-a-texto/master/nal.py>`_
+  * `separasilabas.py <https://raw.githubusercontent.com/amunozf/separasilabas/master/separasilabas.py>`_
 
 2. Copy them to the same folder as legibilidad.py
 3. See "ejemplo.py" to find out how it works.
