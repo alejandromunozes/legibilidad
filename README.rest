@@ -1,6 +1,8 @@
 Legibilidad
 ===========
 
+*Legibilidad* is Spanish for *readability*, that is, how easy to read a text is.
+
 Spanish text readability calculations. It calculates:
 
 * Fernández Huerta's readability score
