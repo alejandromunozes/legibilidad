@@ -35,16 +35,34 @@ def contar_palabras(texto):
     texto = ''.join(filter(lambda x: not x.isdigit(), texto))
     limpia = re.compile('\W+')
     texto = limpia.sub(' ', texto).strip()
-    return len(texto.split())
+    # Evita división por cero
+    if len(texto.split()) == 0:
+        return 1
+    else:
+        return len(texto.split())
 
 # Contar frases
 
 def contar_frases(texto):
     texto = texto.replace("\n","")
-    FinDeFrase = re.compile('[.:;¡!¿?\)\()]')
+    FinDeFrase = re.compile('[.:;!?\)\()]')
     frases=FinDeFrase.split(texto)
     frases = list(filter(None, frases))
-    return len(frases)
+    if len(frases) == 0:
+        return 1
+    else:
+        return len(frases)
+
+# Cuenta los párrafos de un texto
+
+def contar_parrafos(texto):
+    texto = re.sub('<[^>]*>', '', texto)
+    texto = list(filter(None, texto.split('\n')))
+    if len(texto) == 0:
+        return 1
+    else:
+        return len(texto)
+
 
 # Convierte las cifras de los números de un texto a letras (p.ej. :21 a veintiuno)
 
@@ -59,15 +77,16 @@ def cifras_a_letras(texto):
             else:
                 palabra = float(palabra)
             palabra = nal.to_word(palabra)
-        textonuevo.append(palabra)
+        textonuevo.append(palabra.lower())
         
     texto = ' '.join(textonuevo)
     return texto
 
 
 # Cuenta las sílabas de una palabra
-import separasilabas
+
 def contar_silabas(palabra):
+    import separasilabas
     palabra = re.sub(r'\W+', '', palabra)
     silabas = separasilabas.silabizer()
     return len(silabas(palabra))
@@ -85,7 +104,10 @@ def contar_total_silabas(texto):
     total = 0
     for palabra in texto:
         total += contar_silabas(palabra)
-    return total
+    if total == 0:
+        return 1
+    else:
+        return total
 
 
 # Valor P. Promedio de sílabas por cada cien palabras
