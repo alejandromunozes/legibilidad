@@ -1,0 +1,27 @@
+Legibilidad
+===========
+
+*Legibilidad*, es decir, cuán fácil de leer es un texto.
+
+Sirve para calcular la legibilidad. Aplica las fórmulas de:
+
+* Fernández Huerta
+* Szigriszt-Pazos
+* Inflesz
+
+Cómo se usa
+===========
+
+1. Baje estos ficheros:
+
+  * `legibilidad.py <https://raw.githubusercontent.com/amunozf/legibilidad/master/legibilidad.py>`_
+  * `nal.py <https://raw.githubusercontent.com/amunozf/cifra-a-texto/master/nal.py>`_
+  * `separasilabas.py <https://raw.githubusercontent.com/amunozf/separasilabas/master/separasilabas.py>`_
+
+2. Póngalos en la misma carpeta
+3. Vea "ejemplo.py" para averiguar cómo funciona
+
+Demo en línea
+=============
+
+También puede probar mi `demo en línea <https://amunoz.org/legible>`_. Pegue su texto y obtenga el resutlado.
