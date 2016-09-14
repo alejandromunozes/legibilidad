@@ -27,6 +27,8 @@
 # S = silabas totales
 # F = frases totales
 
+#
+
 import re
 
 # Contar palabras
@@ -184,3 +186,28 @@ def inflesz(P):
         return "bastante fácil"
     else:
         return "muy fácil"
+
+def contar_letras(texto):
+    '''
+    obtiene el número de letras del texto
+    '''
+    count = 0
+    for char in texto:
+        if char.isalpha():
+            count += 1
+    if count == 0:
+        return 1
+    else:
+        return count
+
+def gutierrez(texto):
+    '''
+    Obtiene el índice de legibilidad de Gutiérrez (1972)
+    '''
+    legibguti = 95.2 - 9.7 * (contar_letras(texto) / contar_palabras(texto)) - 0.35 * (contar_palabras(texto) / contar_frases(texto))
+    
+    return round(legibguti, 2)
+    
+
+
+# See example.py to see how it works!
