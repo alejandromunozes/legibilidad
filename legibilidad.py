@@ -1,5 +1,6 @@
 # Legibilidad. 0.1 (beta)
 # Averigua la legibilidad de un texto
+# Spanish readability calculations
 # 2016 Alejandro Muñoz Fernández
 
 #This program is free software: you can redistribute it and/or modify
@@ -16,144 +17,178 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-###Cálculo de la lecturabilidad con la fórmula de Fernández-Huerta (1959)
-# Lecturabilidad = 206,84 – 0,60 P – 1,02 F
-# P = número de sílabas por cada cien palabras
-# F = número de frases por cada cien palabras
 
-### Cálculo de la perspicuidad de Szigriszt-Pazos (1993)
-# Perspicuidad = 206.835 – 62.3 (S/P – P/F)
-# P = palabras totales
-# S = silabas totales
-# F = frases totales
-
-#
 
 import re
+import statistics
 
-# Contar palabras
+def count_letters(text):
+    '''
+    Text letter count
+    '''
+    count = 0
+    for char in text:
+        if char.isalpha():
+            count += 1
+    if count == 0:
+        return 1
+    else:
+        return count
 
-def contar_palabras(texto):
-    texto = ''.join(filter(lambda x: not x.isdigit(), texto))
-    limpia = re.compile('\W+')
-    texto = limpia.sub(' ', texto).strip()
+
+def count_words(text):
+    '''
+    Text word count
+    '''
+    text = ''.join(filter(lambda x: not x.isdigit(), text))
+    clean = re.compile('\W+')
+    text = clean.sub(' ', text).strip()
     # Evita división por cero
-    if len(texto.split()) == 0:
+    if len(text.split()) == 0:
         return 1
     else:
-        return len(texto.split())
+        return len(text.split())
 
-# Contar frases
 
-def contar_frases(texto):
-    texto = texto.replace("\n","")
-    FinDeFrase = re.compile('[.:;!?\)\()]')
-    frases=FinDeFrase.split(texto)
-    frases = list(filter(None, frases))
-    if len(frases) == 0:
+def count_sentences(text):
+    '''
+    Sentence count
+    '''
+    text = text.replace("\n","")
+    sentence_end = re.compile('[.:;!?\)\()]')
+    sencences=sentence_end.split(text)
+    sencences = list(filter(None, sencences))
+    if len(sencences) == 0:
         return 1
     else:
-        return len(frases)
+        return len(sencences)
 
-# Cuenta los párrafos de un texto
-
-def contar_parrafos(texto):
-    texto = re.sub('<[^>]*>', '', texto)
-    texto = list(filter(None, texto.split('\n')))
-    if len(texto) == 0:
+def count_paragraphs(text):
+    '''
+    Paragraph count
+    '''
+    text = re.sub('<[^>]*>', '', text)
+    text = list(filter(None, text.split('\n')))
+    if len(text) == 0:
         return 1
     else:
-        return len(texto)
+        return len(text)
 
-
-# Convierte las cifras de los números de un texto a letras (p.ej. :21 a veintiuno)
-
-def cifras_a_letras(texto):
+def numbers2words(text):
+    '''
+    Comverts figures into words (e.g. 2 to two)
+    '''
     import nal
-    textonuevo = []
-    for palabra in texto.split():
+    new_text = []
+    for word in text.split():
         formato_numerico = re.compile("^[\-]?[1-9][0-9]*\.?[0-9]+$")
-        if re.match(formato_numerico,palabra):
-            if type(palabra) == "int":
-                palabra = int(palabra)
+        if re.match(formato_numerico,word):
+            if type(word) == "int":
+                word = int(word)
             else:
-                palabra = float(palabra)
-            palabra = nal.to_word(palabra)
-        textonuevo.append(palabra.lower())
+                word = float(word)
+            word = nal.to_word(word)
+        new_text.append(word.lower())
         
-    texto = ' '.join(textonuevo)
-    return texto
+    text = ' '.join(new_text)
+    return text
 
 
-# Cuenta las sílabas de una palabra
-
-def contar_silabas(palabra):
+def count_syllables(word):
+    '''
+    Word syllable count
+    '''
     import separasilabas
-    palabra = re.sub(r'\W+', '', palabra)
-    silabas = separasilabas.silabizer()
-    return len(silabas(palabra))
-    
+    word = re.sub(r'\W+', '', word)
+    syllables = separasilabas.silabizer()
+    return len(syllables(word))
 
-# Cuenta las sílabas de todas las palabras
-
-def contar_total_silabas(texto):
+def count_all_syllables(text):
+    '''
+    The whole text syllable count
+    '''
     
-    texto = ''.join(filter(lambda x: not x.isdigit(), texto))
-    limpia = re.compile('\W+')
-    texto = limpia.sub(' ', texto).strip()
-    texto = texto.split()
-    texto = filter(None, texto)
+    text = ''.join(filter(lambda x: not x.isdigit(), text))
+    clean = re.compile('\W+')
+    text = clean.sub(' ', text).strip()
+    text = text.split()
+    text = filter(None, text)
     total = 0
-    for palabra in texto:
-        total += contar_silabas(palabra)
+    for word in text:
+        total += count_syllables(word)
     if total == 0:
         return 1
     else:
         return total
 
+def Pval(text):
+    '''
+    Syllables-per-word mean (P value)
+    '''
+    syllables = count_all_syllables(numbers2words(text))
+    words = count_words(numbers2words(text))
+    return round(syllables / words,2)
 
-# Valor P. Promedio de sílabas por cada cien palabras
 
-def valorP(texto):
-    silabas = contar_total_silabas(cifras_a_letras(texto))
-    palabras = contar_palabras(cifras_a_letras(texto))
-    return round(silabas / palabras,2)
+def Fval(text):
+    '''
+    Words-per-sentence mean (F value)
+    '''
+    sencences = count_sentences(text)
+    words = count_words(numbers2words(text))
+    return round(words / sencences,2)
 
 
-# Valor F. Promedio de frases por cada cien palabras
+def fernandez_huerta(text):
+    '''
+    Fernández Huerta readability score
+    '''
+    fernandez_huerta = 206.84 - 60*Pval(text) - 1.02*Fval(text)
+    return round(fernandez_huerta,2)
 
-def valorF(texto):
-    frases = contar_frases(texto)
-    palabras = contar_palabras(cifras_a_letras(texto))
-    return round(palabras / frases,2)
 
-# Lecturabilidad
-
-def lecturabilidad(texto):
-    lecturabilidad = 206.84 - 60*valorP(texto) - 1.02*valorF(texto)
-    return round(lecturabilidad,2)
-
-# Interpreta la lecturabilidad
-def interpretaL(L):
-    if L < 30:
-        return "muy difícil"
-    elif L >= 30 and L < 50:
-        return "difícil"
-    elif L >= 50 and L < 60:
-        return "bastante difícil"
-    elif L >= 60 and L < 70:
-        return "normal para un adulto"
-    elif L >= 70 and L < 80:
-        return "bastante fácil"
-    elif L >= 80 and L < 90:
-        return "fácil"
-    else:
-        return "muy fácil"
 
 # Perspicuidad
 
-def perspicuidad(texto):
-    return round(206.835 - 62.3 * ( contar_total_silabas(cifras_a_letras(texto)) / contar_palabras(cifras_a_letras(texto))) - (contar_palabras(cifras_a_letras(texto)) / contar_frases(texto)),2)
+def szigriszt_pazos(text):
+    '''
+    Szigriszt Pazos readability score (1992)
+    '''
+    return round(206.835 - 62.3 * ( count_all_syllables(numbers2words(text)) / count_words(numbers2words(text))) - (count_words(numbers2words(text)) / count_sentences(text)),2)
+
+
+def gutierrez(text):
+    '''
+    Gutiérrez de Polini's readability score (1972)
+    '''
+    legibguti = 95.2 - 9.7 * (count_letters(text) / count_words(text)) - 0.35 * (count_words(text) / count_sentences(text))
+    
+    return round(legibguti, 2)
+
+
+
+def mu(text):
+    '''
+    Muñoz Baquedano and Muñoz Urra's readability score (2006)
+    '''
+    n = count_words(text)
+    # Delete all digits
+    text = ''.join(filter(lambda x: not x.isdigit(), text))
+    # Cleans it all
+    clean = re.compile('\W+')
+    text = clean.sub(' ', text).strip()
+    text = text.split() # word list
+    word_lengths = []
+    for word in text:
+        word_lengths.append(len(word))
+    # The mean calculation needs at least 1 value on the list, and the variance, two. If somebody enters only one word or, what is worse, a figure, the calculation breaks, so this is a 'fix'
+    try:
+        mean = statistics.mean(word_lengths)
+        variance = statistics.variance(word_lengths)
+        mu = (n / (n - 1)) * (mean / variance) * 100
+        return round(mu, 2)
+    except:
+        return 0
 
 # Interpreta la perspicuidad
 
@@ -173,6 +208,26 @@ def interpretaP(P):
     else:
         return "fácil"
     
+    
+    
+# Interpreta la fernandez_huerta
+def interpretaL(L):
+    if L < 30:
+        return "muy difícil"
+    elif L >= 30 and L < 50:
+        return "difícil"
+    elif L >= 50 and L < 60:
+        return "bastante difícil"
+    elif L >= 60 and L < 70:
+        return "normal"
+    elif L >= 70 and L < 80:
+        return "bastante fácil"
+    elif L >= 80 and L < 90:
+        return "fácil"
+    else:
+        return "muy fácil"
+    
+    
 # Interpretación Inflesz
 
 def inflesz(P):
@@ -186,28 +241,30 @@ def inflesz(P):
         return "bastante fácil"
     else:
         return "muy fácil"
+    
 
-def contar_letras(texto):
-    '''
-    obtiene el número de letras del texto
-    '''
-    count = 0
-    for char in texto:
-        if char.isalpha():
-            count += 1
-    if count == 0:
-        return 1
+def gutierrez_interpret(G):
+    if G <= 33.33:
+        return "difícil"
+    if G > 33.33 and G < 66.66:
+        return "normal"
     else:
-        return count
-
-def gutierrez(texto):
-    '''
-    Obtiene el índice de legibilidad de Gutiérrez (1972)
-    '''
-    legibguti = 95.2 - 9.7 * (contar_letras(texto) / contar_palabras(texto)) - 0.35 * (contar_palabras(texto) / contar_frases(texto))
+        return "fácil"
     
-    return round(legibguti, 2)
-    
-
+def mu_interpret(M):
+    if M < 31:
+        return "muy difícil"
+    elif M >= 31 and M <= 51:
+        return "difícil"
+    elif M >= 51 and M < 61:
+        return "un poco difícil"
+    elif M >= 61 and M < 71:
+        return "adecuado"
+    elif M >= 71 and M < 81:
+        return "un poco fácil fácil"
+    elif M >= 81 and M < 91:
+        return "fácil"
+    else:
+        return "muy fácil"
 
 # See example.py to see how it works!
