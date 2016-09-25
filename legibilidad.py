@@ -1,7 +1,7 @@
 # Legibilidad. 0.1 (beta)
 # Averigua la legibilidad de un texto
 # Spanish readability calculations
-# 2016 Alejandro Muñoz Fernández
+# © 2016 Alejandro Muñoz Fernández
 
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -147,9 +147,6 @@ def fernandez_huerta(text):
     return round(fernandez_huerta,2)
 
 
-
-# Perspicuidad
-
 def szigriszt_pazos(text):
     '''
     Szigriszt Pazos readability score (1992)
@@ -164,8 +161,6 @@ def gutierrez(text):
     legibguti = 95.2 - 9.7 * (count_letters(text) / count_words(text)) - 0.35 * (count_words(text) / count_sentences(text))
     
     return round(legibguti, 2)
-
-
 
 def mu(text):
     '''
@@ -189,6 +184,20 @@ def mu(text):
         return round(mu, 2)
     except:
         return 0
+    
+    
+def crawford(text):
+    '''
+    Crawford's readability formula
+    '''
+    sentences = count_sentences(text)
+    words = count_words(numbers2words(text))
+    syllables = count_all_syllables(numbers2words(text))
+    SeW = 100 * sentences / words # number of sentences per 100 words (mean)
+    SiW = 100 * syllables / words # number of syllables in 100 words (mean)
+    years = -0.205 * SeW + 0.049 * SiW - 3.407
+    years = round(years,1)
+    return years
 
 # Interpreta la perspicuidad
 
@@ -267,4 +276,4 @@ def mu_interpret(M):
     else:
         return "muy fácil"
 
-# See example.py to see how it works!
+# See ejemplo.py to find out how it works!
