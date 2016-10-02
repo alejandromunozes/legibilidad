@@ -6,22 +6,31 @@ Legibilidad
 Spanish text readability calculations. It calculates:
 
 * Fernández Huerta's readability score
+* Gutiérrez de Polini's score
+* Crawford's readability formula
 * Szigriszt-Pazos' perspicuity score
 * Inflesz readability scale
+* µ readability score
 
 How to use
 ==========
+You have two options:
 
-1. Download this files:
+***********
+Online demo
+***********
 
-  * `legibilidad.py <https://raw.githubusercontent.com/amunozf/legibilidad/master/legibilidad.py>`_
-  * `nal.py <https://raw.githubusercontent.com/amunozf/cifra-a-texto/master/nal.py>`_
-  * `separasilabas.py <https://raw.githubusercontent.com/amunozf/separasilabas/master/separasilabas.py>`_
+Try my `online demo <https://amunoz.org/legible>`_. Just paste your text and get the results. That's the easiest and quickest method.
+
+***************************
+Install it in your computer
+***************************
+
+1. Download these files:
+
+* `legibilidad.py <https://raw.githubusercontent.com/amunozf/legibilidad/master/legibilidad.py>`_
+* `nal.py <https://raw.githubusercontent.com/amunozf/cifra-a-texto/master/nal.py>`_
+* `separasilabas.py <https://raw.githubusercontent.com/amunozf/separasilabas/master/separasilabas.py>`_
 
 2. Copy them to the same folder
 3. See "ejemplo.py" to find out how it works.
-
-Online demo
-===========
-
-You can also try my `online demo <https://amunoz.org/legible>`_. Just paste your text and get the results.
