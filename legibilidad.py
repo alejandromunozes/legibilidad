@@ -199,9 +199,11 @@ def crawford(text):
     years = round(years,1)
     return years
 
-# Interpreta la perspicuidad
 
 def interpretaP(P):
+    '''
+    Szigriszt-Pazos score interpretation
+    '''
     if P <= 15:
         return "muy difícil"
     elif P > 15 and P <= 35:
@@ -215,7 +217,7 @@ def interpretaP(P):
     elif P > 75 and P <= 85:
         return "fácil"
     else:
-        return "fácil"
+        return "muy fácil"
     
     
     
@@ -276,4 +278,4 @@ def mu_interpret(M):
     else:
         return "muy fácil"
 
-# See ejemplo.py to find out how it works!
+# See ejemplo.py to see how it works!
