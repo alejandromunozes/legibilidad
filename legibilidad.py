@@ -272,7 +272,7 @@ def mu_interpret(M):
     elif M >= 61 and M < 71:
         return "adecuado"
     elif M >= 71 and M < 81:
-        return "un poco fácil fácil"
+        return "un poco fácil"
     elif M >= 81 and M < 91:
         return "fácil"
     else:
