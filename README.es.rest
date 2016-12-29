@@ -20,7 +20,7 @@ Tiene dos opciones:
 Demo en línea
 *************
 
-Use mi `demo en línea <https://amunoz.org/legible>`_. Pegue su texto y obtenga el resutlado. Más fácil y rápido.
+Use mi `demo en línea <https://legible.es>`_. Pegue su texto y obtenga el resutlado. Más fácil y rápido.
 
 *********
 Instálelo
