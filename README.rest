@@ -20,7 +20,7 @@ You have two options:
 Online demo
 ***********
 
-Try my `online demo <https://amunoz.org/legible>`_. Just paste your text and get the results. That's the easiest and quickest method.
+Try my `online demo <https://legible.es>`_. Just paste your text and get the results. That's the easiest and quickest method.
 
 ***************************
 Install it in your computer
