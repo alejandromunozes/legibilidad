@@ -1,4 +1,4 @@
-# Legibilidad. 0.1 (beta)
+# Legibilidad 2 (beta)
 # Averigua la legibilidad de un texto
 # Spanish readability calculations
 # © 2016 Alejandro Muñoz Fernández
@@ -22,6 +22,7 @@
 import re
 import statistics
 
+
 def count_letters(text):
     '''
     Text letter count
@@ -35,6 +36,20 @@ def count_letters(text):
     else:
         return count
 
+def letter_dict(text):
+    '''
+    letter count dictionary
+    '''
+    text = text.lower()
+    replacements = {'á': 'a','é': 'e','í': 'i','ó': 'o','ú': 'u','ü': 'u'}
+    for i, j in replacements.items():
+        text = text.replace(i, j)
+    letterlist = list(filter(None,map(lambda c: c if c.isalpha() else '', text)))
+    letterdict = dict()
+    for letter in letterlist:
+        letterdict[letter] = letterdict.get(letter,0) + 1
+    return letterdict
+
 
 def count_words(text):
     '''
@@ -43,11 +58,26 @@ def count_words(text):
     text = ''.join(filter(lambda x: not x.isdigit(), text))
     clean = re.compile('\W+')
     text = clean.sub(' ', text).strip()
-    # Evita división por cero
+    # Prevents zero division
     if len(text.split()) == 0:
         return 1
     else:
         return len(text.split())
+
+
+def textdict(wordlist):
+    '''
+    Dictionary of word counts
+    '''
+    wordlist = ''.join(filter(lambda x: not x.isdigit(), wordlist))
+    clean = re.compile('\W+')
+    wordlist = clean.sub(' ', wordlist).strip()
+    wordlist = wordlist.split()
+    # Word count dictionary
+    worddict = dict()
+    for word in wordlist:
+        worddict[word.lower()] = worddict.get(word,0) + 1
+    return worddict
 
 
 def count_sentences(text):
